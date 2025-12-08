@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BookMood</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Pequeños estilos para mejorar la apariencia del login */
+        .login-form-container {
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .login-form-container form {
+            width: 100%;
+            max-width: 420px;
+            background: #fff;
+            padding: 1.6rem;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            color: #222;
+        }
+        .form-group { margin-bottom: 0.85rem; display:block; }
+        .form-group label { display:block; margin-bottom:0.35rem; font-weight:600; }
+        .password-wrapper { position:relative; }
+        .toggle-password {
+            position:absolute; right:8px; top:50%; transform:translateY(-50%);
+            background:none; border:none; cursor:pointer; color:#333; padding:6px; font-size:1rem;
+        }
+        .error { color:#b00020; font-size:0.9rem; margin-top:0.25rem; display:none; }
+        .error.visible { display:block; }
+        #close-login-btn { position: absolute; right: 16px; top: 16px; cursor: pointer; }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-form-container active" style="display:flex;">
+
+        <div id="close-login-btn" class="fas fa-times" role="button" tabindex="0" aria-label="Cerrar formulario"></div>
+
+        <form id="login-form" action="#" method="POST" novalidate>
+            <h3>iniciar sesión</h3>
+
+            <div class="form-group">
+                <label for="email">correo electrónico</label>
+                <input id="email" name="email" type="email" class="box" placeholder="introduce tu correo" required aria-required="true" autocomplete="email" autofocus>
+                <div id="email-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="form-group password-wrapper">
+                <label for="password">contraseña</label>
+                <input id="password" name="password" type="password" class="box" placeholder="introduce tu contraseña" required aria-required="true" autocomplete="current-password">
+                <button type="button" class="toggle-password" aria-label="Mostrar contraseña" title="Mostrar contraseña"> <i class="fas fa-eye"></i> </button>
+                <div id="password-error" class="error" aria-live="polite"></div>
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" id="remember-me" name="remember">
+                <label for="remember-me">recuérdame</label>
+            </div>
+
+            <input type="submit" value="iniciar sesión" class="btn">
+
+            <p>¿olvidaste tu contraseña? <a href="#">haz clic aquí</a></p>
+            <p>¿no tienes cuenta? <a href="register.html">crea una</a></p>
+            <div style="margin-top:0.6rem;">
+                <button type="button" id="to-register-btn" class="btn" style="background:#2563eb;">crear cuenta</button>
+            </div>
+            <div id="form-message" class="error" aria-live="polite"></div>
+        </form>
+
+    </div>
+
+    <script>
+        // Manejo de UI del formulario de login: toggle de contraseña, validación simple y cierre
+        (function(){
+            const closeBtn = document.getElementById('close-login-btn');
+            const container = document.querySelector('.login-form-container');
+            const toggle = document.querySelector('.toggle-password');
+            const passwordInput = document.getElementById('password');
+            const form = document.getElementById('login-form');
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const formMessage = document.getElementById('form-message');
+
+            closeBtn.addEventListener('click', ()=>{ container.style.display = 'none'; });
+            closeBtn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') container.style.display = 'none'; });
+
+            toggle.addEventListener('click', ()=>{
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                toggle.setAttribute('aria-label', type === 'password' ? 'Mostrar contraseña' : 'Ocultar contraseña');
+                toggle.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+
+            function showError(el, msg){ el.textContent = msg; el.classList.add('visible'); }
+            function clearError(el){ el.textContent = ''; el.classList.remove('visible'); }
+
+            form.addEventListener('submit', function(e){
+                clearError(emailError); clearError(passwordError); formMessage.textContent = '';
+                let valid = true;
+
+                if(!email.checkValidity()){
+                    showError(emailError, 'Por favor introduce un correo válido.');
+                    valid = false;
+                }
+
+                if(passwordInput.value.trim().length < 6){
+                    showError(passwordError, 'La contraseña debe tener al menos 6 caracteres.');
+                    valid = false;
+                }
+
+                if(!valid){ e.preventDefault(); return; }
+
+                // Simulación de envío: aquí se puede hacer fetch a la API
+                e.preventDefault();
+                formMessage.classList.remove('visible');
+                formMessage.style.color = '';
+                formMessage.textContent = 'Iniciando sesión...';
+                formMessage.classList.add('visible');
+
+                // Ejemplo: simular petición con timeout
+                setTimeout(()=>{
+                    // si la autenticación falla, mostrar mensaje
+                    // formMessage.style.color = '#b00020';
+                    // formMessage.textContent = 'Credenciales incorrectas.';
+                    // return;
+
+                        // en caso de éxito redirigir (a ajustar según backend)
+                        window.location.href = './html.html';
+                }, 700);
+            });
+
+                // Botón para ir a registro desde la pantalla de login
+                const toRegister = document.getElementById('to-register-btn');
+                if(toRegister){
+                    toRegister.addEventListener('click', ()=>{ window.location.href = 'register.html'; });
+                }
+        })();
+    </script>
+
+</body>
+
+</html>
