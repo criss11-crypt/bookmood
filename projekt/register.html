@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Bookflix y Relájate</title>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Coincidir apariencia con el login */
@@ -90,6 +88,9 @@
             const nameInput = document.getElementById('name');
             const email = document.getElementById('email');
 
+            // Regex para la contraseña: Mínimo 8, al menos 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial de los permitidos.
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,;:-_])[A-Za-z\d.,;:-_]{8,}$/;
+
             function showError(el, msg){ el.textContent = msg; el.classList.add('visible'); }
             function clearError(el){ el.textContent = ''; el.classList.remove('visible'); }
 
@@ -117,14 +118,30 @@
                 });
 
                 let valid = true;
+                const passwordErrorEl = document.getElementById('password-error');
+                const password2ErrorEl = document.getElementById('password2-error');
 
                 if(nameInput.value.trim().length < 2){ showError(document.getElementById('name-error'),'Introduce tu nombre completo.'); valid=false; }
 
                 if(!email.checkValidity()){ showError(document.getElementById('email-error'),'Introduce un correo válido.'); valid=false; }
 
-                if(password.value.trim().length < 6){ showError(document.getElementById('password-error'),'La contraseña debe tener al menos 6 caracteres.'); valid=false; }
+                // Validación de contraseña con Regex
+                if(!passwordRegex.test(password.value)){
+                    showError(passwordErrorEl,'La contraseña debe tener al menos 8 caracteres, incluir letras minúsculas, mayúsculas, un número y uno de estos caracteres especiales: . , ; : - _');
+                    valid=false;
+                } else if(password.value !== password2.value){
+                    showError(password2ErrorEl,'Las contraseñas no coinciden.');
+                    valid=false;
+                }
 
-                if(password.value !== password2.value){ showError(document.getElementById('password2-error'),'Las contraseñas no coinciden.'); valid=false; }
+                // La validación de coincidencia de contraseña solo ocurre si ambas contraseñas tienen formato válido
+                if(passwordRegex.test(password.value) && password.value !== password2.value){
+                    showError(password2ErrorEl,'Las contraseñas no coinciden.'); valid=false;
+                }
+
+                if(!document.getElementById('terms').checked){
+                    showError(document.getElementById('form-message'),'Debes aceptar los términos y condiciones.'); valid=false;
+                }
 
                 if(!valid) return;
 
@@ -133,8 +150,8 @@
 
                 // Simulación de petición al servidor
                 setTimeout(()=>{
-                    // En producción hacer fetch POST a tu API aquí
-                    window.location.href = './html.html';
+                    // En caso de éxito, redirigir al login (conexión)
+                    window.location.href = 'login.html';
                 },700);
             });
         })();

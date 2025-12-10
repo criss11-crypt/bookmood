@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - BookMood</title>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Pequeños estilos para mejorar la apariencia del login */
@@ -81,7 +79,7 @@
     </div>
 
     <script>
-        // Manejo de UI del formulario de login: toggle de contraseña, validación simple y cierre
+        // Manejo de UI del formulario de login: toggle de contraseña, validación y cierre
         (function(){
             const closeBtn = document.getElementById('close-login-btn');
             const container = document.querySelector('.login-form-container');
@@ -92,6 +90,9 @@
             const emailError = document.getElementById('email-error');
             const passwordError = document.getElementById('password-error');
             const formMessage = document.getElementById('form-message');
+
+            // Regex para la contraseña: Mínimo 8, al menos 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial de los permitidos.
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,;:-_])[A-Za-z\d.,;:-_]{8,}$/;
 
             closeBtn.addEventListener('click', ()=>{ container.style.display = 'none'; });
             closeBtn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') container.style.display = 'none'; });
@@ -115,14 +116,14 @@
                     valid = false;
                 }
 
-                if(passwordInput.value.trim().length < 6){
-                    showError(passwordError, 'La contraseña debe tener al menos 6 caracteres.');
+                if(!passwordRegex.test(passwordInput.value)){
+                    showError(passwordError, 'La contraseña debe tener al menos 8 caracteres, incluir letras minúsculas, mayúsculas, un número y uno de estos caracteres especiales: . , ; : - _');
                     valid = false;
                 }
 
                 if(!valid){ e.preventDefault(); return; }
 
-                // Simulación de envío: aquí se puede hacer fetch a la API
+                // Simulación de envío
                 e.preventDefault();
                 formMessage.classList.remove('visible');
                 formMessage.style.color = '';
@@ -131,21 +132,17 @@
 
                 // Ejemplo: simular petición con timeout
                 setTimeout(()=>{
-                    // si la autenticación falla, mostrar mensaje
-                    // formMessage.style.color = '#b00020';
-                    // formMessage.textContent = 'Credenciales incorrectas.';
-                    // return;
-
-                        // en caso de éxito redirigir (a ajustar según backend)
-                        window.location.href = './html.html';
+                    // Aquí se procesaría la respuesta del servidor (éxito o error)
+                    // En caso de éxito redirigir (a ajustar según backend)
+                    window.location.href = './html.html';
                 }, 700);
             });
 
-                // Botón para ir a registro desde la pantalla de login
-                const toRegister = document.getElementById('to-register-btn');
-                if(toRegister){
-                    toRegister.addEventListener('click', ()=>{ window.location.href = 'register.html'; });
-                }
+            // Botón para ir a registro desde la pantalla de login (conexión)
+            const toRegister = document.getElementById('to-register-btn');
+            if(toRegister){
+                toRegister.addEventListener('click', ()=>{ window.location.href = 'register.html'; });
+            }
         })();
     </script>
 
