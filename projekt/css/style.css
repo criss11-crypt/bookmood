@@ -28,6 +28,11 @@ html{
     scroll-behavior: smooth;
 }
 
+body{
+    background: #ffffff;
+    color: var(--black);
+}
+
 html::-webkit-scrollbar{
     width:1rem;
 }
