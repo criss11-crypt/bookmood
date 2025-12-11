@@ -261,6 +261,12 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script> 
+
+    <script src="./firebase-auth.js"></script> 
+
     <script>
         const form = document.getElementById("registerForm");
         const nameInput = document.getElementById("name");
@@ -415,28 +421,43 @@
             // Deshabilitar botón y mostrar loading
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Creando cuenta<span class="loading"></span>';
-            
-            // Simular proceso de registro
-            setTimeout(() => {
-                const user = {
-                    name: nameInput.value.trim(),
-                    email: emailInput.value.trim(),
-                    password: passwordInput.value,
-                    registeredAt: new Date().toISOString()
-                };
-                
-                const users = JSON.parse(localStorage.getItem("users") || "[]");
-                users.push(user);
-                localStorage.setItem("users", JSON.stringify(users));
-                localStorage.setItem("currentUser", JSON.stringify(user));
-                
-                submitBtn.innerHTML = '✓ Cuenta creada';
-                submitBtn.style.background = "#2ed573";
-                
-                setTimeout(() => {
-                    window.location.href = "html.html";
-                }, 800);
-            }, 1000);
+            submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'; // Restablecer color
+
+            // --- CÓDIGO DE FIREBASE ---
+            const emailValue = emailInput.value; 
+            const passwordValue = passwordInput.value; 
+
+            // 1. LLAMA a la función (que está en firebase-auth.js)
+            registrarNuevoUsuario(emailValue, passwordValue)
+                .then(() => {
+                    // Éxito:
+                    submitBtn.innerHTML = '✓ Cuenta creada';
+                    submitBtn.style.background = "#2ed573"; // Verde (Success)
+                    
+                    // Redirigir a login.html
+                    setTimeout(() => {
+                        window.location.href = 'login.html'; 
+                    }, 1500); 
+                })
+                .catch((error) => {
+                    // Error: Muestra el error
+                    submitBtn.disabled = false; // Habilitar botón para reintentar
+                    submitBtn.innerHTML = 'Error al registrar';
+                    submitBtn.style.background = "#ff4757"; // Rojo (Error)
+
+                    // Muestra el mensaje de error de Firebase en el campo de email (más relevante)
+                    const emailErrorElement = document.getElementById("emailError");
+                    showError(emailInput, emailErrorElement, error.message);
+                    
+                    // Revertir el estado del botón después de 3 segundos
+                    setTimeout(() => {
+                        submitBtn.innerHTML = 'Crear cuenta';
+                        submitBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    }, 3000); 
+
+                    console.error('Error final de registro:', error);
+                });
+            // 2. ELIMINAMOS la simulación con setTimeout() que estaba aquí.
         });
     </script>
 </body>

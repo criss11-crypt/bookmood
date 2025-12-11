@@ -1,130 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión - BookMood</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            background: #f5f5f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Pequeños estilos para mejorar la apariencia del login */
+        .login-form-container {
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            min-height: 100vh;
+            padding: 1rem;
         }
 
-        .container {
+        .login-form-container form {
             width: 100%;
             max-width: 420px;
             background: #fff;
-            padding: 40px 35px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-out;
-            position: relative;
+            padding: 1.6rem;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            color: #222;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .close-btn {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #f5f5f5;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .close-btn:hover {
-            background: #667eea;
-            color: #fff;
-            transform: rotate(90deg);
-        }
-
-        h2 {
-            color: #2c2c54;
-            font-size: 32px;
-            margin-bottom: 10px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
+        .form-group {
+            margin-bottom: 0.85rem;
             display: block;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 14px;
         }
 
-        input[type="email"],
-        input[type="password"],
-        input[type="text"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #667eea;
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-        }
-
-        input.error-input {
-            border-color: #ff4757;
-            background: #fff5f5;
-        }
-
-        input.success-input {
-            border-color: #2ed573;
-            background: #f0fff4;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-weight: 600;
         }
 
         .password-wrapper {
@@ -133,417 +45,297 @@
 
         .toggle-password {
             position: absolute;
-            right: 16px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
             cursor: pointer;
-            color: #666;
-            padding: 8px;
-            font-size: 16px;
-            transition: color 0.3s ease;
+            color: #333;
+            font-size: 1.2rem;
         }
 
-        .toggle-password:hover {
-            color: #667eea;
-        }
-
-        .error {
-            color: #ff4757;
-            font-size: 13px;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .success {
-            color: #2ed573;
-            font-size: 13px;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .checkbox label {
-            margin: 0;
-            font-weight: 400;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        button[type="submit"]:active {
-            transform: translateY(0);
-        }
-
-        button[type="submit"]:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .links {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .links p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .links a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            color: #999;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .register-btn {
-            width: 100%;
-            padding: 14px;
-            background: #fff;
-            color: #667eea;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .register-btn:hover {
-            background: #667eea;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.6s linear infinite;
-            margin-left: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .icon {
-            font-size: 12px;
+        /* Estilos de mensajes */
+        .error-message {
+            color: var(--orange);
+            font-size: 1.2rem;
+            display: none;
         }
 
         .form-message {
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 14px;
             display: none;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-size: 1.4rem;
         }
 
         .form-message.visible {
             display: block;
         }
 
-        .form-message.info {
-            background: #e3f2fd;
-            color: #1976d2;
+        /* Input styles */
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1.4rem;
         }
 
-        .form-message.success {
-            background: #f0fff4;
-            color: #2ed573;
+        input:focus {
+            border-color: var(--dark-color);
+            outline: none;
         }
 
-        .form-message.error {
-            background: #fff5f5;
-            color: #ff4757;
+        /* Botón de Submit */
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--orange);
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Enlace de registro */
+        .register-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .register-link a {
+            color: var(--dark-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.4rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <button class="close-btn" id="closeBtn" aria-label="Cerrar">
-            <i class="fas fa-times"></i>
-        </button>
 
-        <h2> Bienvenido</h2>
-        <p class="subtitle">Inicia sesión para continuar en BookMood</p>
-        
-        <form id="loginForm">
-            <div class="input-group">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="login-form-container">
+        <form action="" id="login-form">
+            <h3>Iniciar Sesión</h3>
+
+            <div id="form-message" class="form-message"></div>
+
+            <div class="form-group">
                 <label for="email">Correo electrónico</label>
-                <input type="email" id="email" placeholder="tu@email.com" autocomplete="email" autofocus>
-                <div id="emailError" class="error" style="display: none;"></div>
+                <input type="email" name="email" id="email" placeholder="Ingresa tu correo" required>
+                <p id="email-error" class="error-message"></p>
             </div>
 
-            <div class="input-group">
+            <div class="form-group">
                 <label for="password">Contraseña</label>
                 <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Introduce tu contraseña" autocomplete="current-password">
-                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar contraseña">
+                    <input type="password" name="password" id="password" placeholder="Ingresa tu contraseña" required>
+                    <button type="button" class="toggle-password" id="toggle-password-btn">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
-                <div id="passwordError" class="error" style="display: none;"></div>
+                <p id="password-error" class="error-message"></p>
             </div>
 
-            <div class="checkbox">
-                <input type="checkbox" id="rememberMe" name="remember">
-                <label for="rememberMe">Recuérdame</label>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <label for="rememberMe">Recordarme</label>
             </div>
 
-            <button type="submit" id="submitBtn">Iniciar sesión</button>
+            <button type="submit" id="submit-btn" class="btn-submit">Iniciar Sesión</button>
 
-            <div id="formMessage" class="form-message"></div>
-
-            <div class="links">
-                <p>¿Olvidaste tu contraseña? <a href="#">Recuperar</a></p>
+            <div class="register-link">
+                ¿Aún no tienes cuenta? <a href="register.html">Regístrate aquí</a>
             </div>
-
-            <div class="divider">
-                <span>o</span>
-            </div>
-
-            <button type="button" class="register-btn" id="registerBtn">
-                <i class="fas fa-user-plus"></i> Crear cuenta nueva
-            </button>
         </form>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
+
+    <script src="./firebase-auth.js"></script>
+
     <script>
-        const form = document.getElementById("loginForm");
-        const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
-        const togglePassword = document.getElementById("togglePassword");
-        const submitBtn = document.getElementById("submitBtn");
-        const formMessage = document.getElementById("formMessage");
-        const closeBtn = document.getElementById("closeBtn");
-        const registerBtn = document.getElementById("registerBtn");
-        const rememberMe = document.getElementById("rememberMe");
+        (function() {
+            // Variables y elementos
+            const form = document.getElementById('login-form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submit-btn');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const formMessage = document.getElementById('form-message');
+            const togglePasswordBtn = document.getElementById('toggle-password-btn');
+            const rememberMe = document.getElementById('rememberMe');
 
-        // Cerrar formulario
-        closeBtn.addEventListener("click", () => {
-            if (confirm("¿Estás seguro de que deseas salir?")) {
-                window.history.back();
-            }
-        });
-
-        // Ir a registro
-        registerBtn.addEventListener("click", () => {
-            window.location.href = "register.html";
-        });
-
-        // Toggle mostrar/ocultar contraseña
-        togglePassword.addEventListener("click", () => {
-            const type = passwordInput.type === "password" ? "text" : "password";
-            passwordInput.type = type;
-            togglePassword.innerHTML = type === "password" 
-                ? '<i class="fas fa-eye"></i>' 
-                : '<i class="fas fa-eye-slash"></i>';
-            togglePassword.setAttribute("aria-label", type === "password" ? "Mostrar contraseña" : "Ocultar contraseña");
-        });
-
-        // Validación en tiempo real
-        emailInput.addEventListener("input", validateEmail);
-        passwordInput.addEventListener("input", validatePassword);
-
-        function showError(inputElement, errorElement, message) {
-            inputElement.classList.add("error-input");
-            inputElement.classList.remove("success-input");
-            errorElement.innerHTML = `<span class="icon">⚠️</span> ${message}`;
-            errorElement.style.display = "flex";
-        }
-
-        function showSuccess(inputElement, errorElement) {
-            inputElement.classList.remove("error-input");
-            inputElement.classList.add("success-input");
-            errorElement.style.display = "none";
-        }
-
-        function validateEmail() {
-            const email = emailInput.value.trim();
-            const errorElement = document.getElementById("emailError");
-            
-            if (email === "") {
-                showError(emailInput, errorElement, "El correo es obligatorio");
-                return false;
-            }
-            
+            // Regex
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showError(emailInput, errorElement, "Formato de correo inválido");
-                return false;
-            }
-            
-            showSuccess(emailInput, errorElement);
-            return true;
-        }
+            // Usando la regex estricta de tu compañero del registro
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,;:-_])[A-Za-z\d.,;:-_]{8,}$/; 
 
-        function validatePassword() {
-            const password = passwordInput.value;
-            const errorElement = document.getElementById("passwordError");
-            
-            if (password === "") {
-                showError(passwordInput, errorElement, "La contraseña es obligatoria");
-                return false;
+            // Funciones de utilidad
+            function showError(element, message) {
+                element.textContent = message;
+                element.style.display = 'block';
             }
-            
-            if (password.length < 8) {
-                showError(passwordInput, errorElement, "La contraseña debe tener al menos 8 caracteres");
-                return false;
+
+            function hideError(element) {
+                element.textContent = '';
+                element.style.display = 'none';
             }
-            
-            showSuccess(passwordInput, errorElement);
-            return true;
-        }
 
-        function showFormMessage(message, type) {
-            formMessage.textContent = message;
-            formMessage.className = "form-message visible " + type;
-        }
-
-        function hideFormMessage() {
-            formMessage.className = "form-message";
-        }
-
-        // Envío del formulario
-        form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            
-            hideFormMessage();
-            
-            const isEmailValid = validateEmail();
-            const isPasswordValid = validatePassword();
-            
-            if (!isEmailValid || !isPasswordValid) {
-                return;
+            // Toggle Password
+            if (togglePasswordBtn) {
+                togglePasswordBtn.addEventListener('click', () => {
+                    const type = passwordInput.type === 'password' ? 'text' : 'password';
+                    passwordInput.type = type;
+                    togglePasswordBtn.querySelector('i').classList.toggle('fa-eye');
+                    togglePasswordBtn.querySelector('i').classList.toggle('fa-eye-slash');
+                });
             }
-            
-            // Deshabilitar botón y mostrar loading
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Iniciando sesión<span class="loading"></span>';
-            
-            // Simular proceso de login
-            setTimeout(() => {
-                const email = emailInput.value.trim();
-                const password = passwordInput.value;
-                
-                // Verificar si el usuario existe
-                const users = JSON.parse(localStorage.getItem("users") || "[]");
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    // Login exitoso
-                    localStorage.setItem("currentUser", JSON.stringify(user));
-                    
-                    // Guardar preferencia de "recuérdame"
-                    if (rememberMe.checked) {
-                        localStorage.setItem("rememberUser", email);
-                    } else {
-                        localStorage.removeItem("rememberUser");
-                    }
-                    
-                    submitBtn.innerHTML = '✓ Acceso correcto';
-                    submitBtn.style.background = "#2ed573";
-                    showFormMessage("¡Bienvenido de nuevo!", "success");
-                    
-                    setTimeout(() => {
-                        window.location.href = "html.html";
-                    }, 800);
-                } else {
-                    // Login fallido
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Iniciar sesión';
-                    showFormMessage("Correo o contraseña incorrectos", "error");
-                    passwordInput.value = "";
+
+            // Cargar email recordado si existe
+            window.addEventListener("load", () => {
+                const rememberedEmail = localStorage.getItem("rememberUser");
+                if (rememberedEmail) {
+                    emailInput.value = rememberedEmail;
+                    rememberMe.checked = true;
                     passwordInput.focus();
                 }
-            }, 1000);
-        });
+            });
 
-        // Cargar email recordado si existe
-        window.addEventListener("load", () => {
-            const rememberedEmail = localStorage.getItem("rememberUser");
-            if (rememberedEmail) {
-                emailInput.value = rememberedEmail;
-                rememberMe.checked = true;
-                passwordInput.focus();
+            // Listener de Envío del Formulario
+            form.addEventListener('submit', function(e) {
+                let valid = true; // Variable de validación local
+                
+                // Limpiar errores previos de mensaje global y botones
+                hideError(formMessage);
+                formMessage.style.color = '';
+                submitBtn.textContent = 'Iniciar Sesión';
+                submitBtn.style.background = 'var(--dark-color)';
+                submitBtn.disabled = false;
+
+                // Limpiar errores de campos individuales
+                hideError(emailError);
+                hideError(passwordError);
+
+                // Validación de campos (local)
+                if(!emailRegex.test(emailInput.value)){
+                    showError(emailError, 'Por favor introduce un correo válido.');
+                    valid = false;
+                }
+
+                // La validación de contraseña de login solo debe asegurar que no está vacía, 
+                // pero mantendré la de tu compañero por si la usa para rellenar
+                if(!passwordInput.value){
+                    showError(passwordError, 'La contraseña es obligatoria.');
+                    valid = false;
+                }
+                
+                // Si la validación local falla, se detiene aquí
+                if(!valid){ 
+                    e.preventDefault(); 
+                    return; 
+                }
+
+                // EVITA que el formulario se envíe de forma tradicional
+                e.preventDefault();
+                
+                // Mostrar estado de carga y deshabilitar botón
+                submitBtn.disabled = true;
+                formMessage.classList.remove('visible');
+                formMessage.style.color = '';
+                formMessage.textContent = 'Iniciando sesión...';
+                formMessage.classList.add('visible');
+                
+                // --- CÓDIGO NUEVO DE FIREBASE ---
+                const email = emailInput.value;
+                const password = passwordInput.value;
+
+                // 1. LLAMA a la función de login (que está en firebase-auth.js)
+                iniciarSesionUsuario(email, password)
+                    .then(() => {
+                        // Éxito:
+                        formMessage.style.color = 'green';
+                        formMessage.textContent = '¡Inicio de sesión exitoso! Redirigiendo...';
+                        submitBtn.textContent = '✓ Acceso correcto';
+                        submitBtn.style.background = 'green';
+
+                        // Guardar preferencia de "recuérdame" 
+                        const rememberMe = document.getElementById('rememberMe');
+                        if (rememberMe && rememberMe.checked) {
+                            localStorage.setItem("rememberUser", email);
+                        } else {
+                            localStorage.removeItem("rememberUser");
+                        }
+
+                        // Redirigir a la página principal (Mantenemos tu redirección original)
+                        setTimeout(() => {
+                            window.location.href = './html.html'; 
+                        }, 700);
+                    })
+                    .catch((error) => {
+                        // Error: Muestra el mensaje de error de la función
+                        submitBtn.disabled = false; 
+                        submitBtn.textContent = 'Iniciar Sesión'; 
+                        submitBtn.style.background = 'red';
+                        formMessage.style.color = 'red';
+                        formMessage.textContent = error.message;
+                        console.error('Error de login:', error);
+
+                        // Opcional: limpiar la contraseña después de un error
+                        passwordInput.value = '';
+                    });
+                // --- FIN CÓDIGO NUEVO DE FIREBASE ---
+            });
+
+            // Botón para ir a registro desde la pantalla de login (conexión)
+            const toRegister = document.getElementById('to-register-btn');
+            if (toRegister) {
+                toRegister.addEventListener('click', () => {
+                    window.location.href = 'register.html';
+                });
             }
-        });
+        })();
     </script>
+
 </body>
+
 </html>
