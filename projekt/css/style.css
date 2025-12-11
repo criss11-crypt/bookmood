@@ -1,549 +1,1136 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión - BookMood</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #f5f5f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 420px;
-            background: #fff;
-            padding: 40px 35px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-out;
-            position: relative;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .close-btn {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #f5f5f5;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .close-btn:hover {
-            background: #667eea;
-            color: #fff;
-            transform: rotate(90deg);
-        }
-
-        h2 {
-            color: #2c2c54;
-            font-size: 32px;
-            margin-bottom: 10px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        input[type="email"],
-        input[type="password"],
-        input[type="text"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #667eea;
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-        }
-
-        input.error-input {
-            border-color: #ff4757;
-            background: #fff5f5;
-        }
-
-        input.success-input {
-            border-color: #2ed573;
-            background: #f0fff4;
-        }
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #666;
-            padding: 8px;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .toggle-password:hover {
-            color: #667eea;
-        }
-
-        .error {
-            color: #ff4757;
-            font-size: 13px;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            animation: shake 0.3s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .success {
-            color: #2ed573;
-            font-size: 13px;
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: #667eea;
-        }
-
-        .checkbox label {
-            margin: 0;
-            font-weight: 400;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        button[type="submit"]:active {
-            transform: translateY(0);
-        }
-
-        button[type="submit"]:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .links {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .links p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .links a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            color: #999;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .register-btn {
-            width: 100%;
-            padding: 14px;
-            background: #fff;
-            color: #667eea;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .register-btn:hover {
-            background: #667eea;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.6s linear infinite;
-            margin-left: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .icon {
-            font-size: 12px;
-        }
-
-        .form-message {
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 14px;
-            display: none;
-        }
-
-        .form-message.visible {
-            display: block;
-        }
-
-        .form-message.info {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .form-message.success {
-            background: #f0fff4;
-            color: #2ed573;
-        }
-
-        .form-message.error {
-            background: #fff5f5;
-            color: #ff4757;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <button class="close-btn" id="closeBtn" aria-label="Cerrar">
-            <i class="fas fa-times"></i>
-        </button>
-
-        <h2> Bienvenido</h2>
-        <p class="subtitle">Inicia sesión para continuar en BookMood</p>
-        
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="email">Correo electrónico</label>
-                <input type="email" id="email" placeholder="tu@email.com" autocomplete="email" autofocus>
-                <div id="emailError" class="error" style="display: none;"></div>
-            </div>
-
-            <div class="input-group">
-                <label for="password">Contraseña</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Introduce tu contraseña" autocomplete="current-password">
-                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar contraseña">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                </div>
-                <div id="passwordError" class="error" style="display: none;"></div>
-            </div>
-
-            <div class="checkbox">
-                <input type="checkbox" id="rememberMe" name="remember">
-                <label for="rememberMe">Recuérdame</label>
-            </div>
-
-            <button type="submit" id="submitBtn">Iniciar sesión</button>
-
-            <div id="formMessage" class="form-message"></div>
-
-            <div class="links">
-                <p>¿Olvidaste tu contraseña? <a href="#">Recuperar</a></p>
-            </div>
-
-            <div class="divider">
-                <span>o</span>
-            </div>
-
-            <button type="button" class="register-btn" id="registerBtn">
-                <i class="fas fa-user-plus"></i> Crear cuenta nueva
-            </button>
-        </form>
-    </div>
-
-    <script>
-        const form = document.getElementById("loginForm");
-        const emailInput = document.getElementById("email");
-        const passwordInput = document.getElementById("password");
-        const togglePassword = document.getElementById("togglePassword");
-        const submitBtn = document.getElementById("submitBtn");
-        const formMessage = document.getElementById("formMessage");
-        const closeBtn = document.getElementById("closeBtn");
-        const registerBtn = document.getElementById("registerBtn");
-        const rememberMe = document.getElementById("rememberMe");
-
-        // Cerrar formulario
-        closeBtn.addEventListener("click", () => {
-            if (confirm("¿Estás seguro de que deseas salir?")) {
-                window.history.back();
-            }
-        });
-
-        // Ir a registro
-        registerBtn.addEventListener("click", () => {
-            window.location.href = "register.html";
-        });
-
-        // Toggle mostrar/ocultar contraseña
-        togglePassword.addEventListener("click", () => {
-            const type = passwordInput.type === "password" ? "text" : "password";
-            passwordInput.type = type;
-            togglePassword.innerHTML = type === "password" 
-                ? '<i class="fas fa-eye"></i>' 
-                : '<i class="fas fa-eye-slash"></i>';
-            togglePassword.setAttribute("aria-label", type === "password" ? "Mostrar contraseña" : "Ocultar contraseña");
-        });
-
-        // Validación en tiempo real
-        emailInput.addEventListener("input", validateEmail);
-        passwordInput.addEventListener("input", validatePassword);
-
-        function showError(inputElement, errorElement, message) {
-            inputElement.classList.add("error-input");
-            inputElement.classList.remove("success-input");
-            errorElement.innerHTML = `<span class="icon">⚠️</span> ${message}`;
-            errorElement.style.display = "flex";
-        }
-
-        function showSuccess(inputElement, errorElement) {
-            inputElement.classList.remove("error-input");
-            inputElement.classList.add("success-input");
-            errorElement.style.display = "none";
-        }
-
-        function validateEmail() {
-            const email = emailInput.value.trim();
-            const errorElement = document.getElementById("emailError");
-            
-            if (email === "") {
-                showError(emailInput, errorElement, "El correo es obligatorio");
-                return false;
-            }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showError(emailInput, errorElement, "Formato de correo inválido");
-                return false;
-            }
-            
-            showSuccess(emailInput, errorElement);
-            return true;
-        }
-
-        function validatePassword() {
-            const password = passwordInput.value;
-            const errorElement = document.getElementById("passwordError");
-            
-            if (password === "") {
-                showError(passwordInput, errorElement, "La contraseña es obligatoria");
-                return false;
-            }
-            
-            if (password.length < 8) {
-                showError(passwordInput, errorElement, "La contraseña debe tener al menos 8 caracteres");
-                return false;
-            }
-            
-            showSuccess(passwordInput, errorElement);
-            return true;
-        }
-
-        function showFormMessage(message, type) {
-            formMessage.textContent = message;
-            formMessage.className = "form-message visible " + type;
-        }
-
-        function hideFormMessage() {
-            formMessage.className = "form-message";
-        }
-
-        // Envío del formulario
-        form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            
-            hideFormMessage();
-            
-            const isEmailValid = validateEmail();
-            const isPasswordValid = validatePassword();
-            
-            if (!isEmailValid || !isPasswordValid) {
-                return;
-            }
-            
-            // Deshabilitar botón y mostrar loading
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Iniciando sesión<span class="loading"></span>';
-            
-            // Simular proceso de login
-            setTimeout(() => {
-                const email = emailInput.value.trim();
-                const password = passwordInput.value;
-                
-                // Verificar si el usuario existe
-                const users = JSON.parse(localStorage.getItem("users") || "[]");
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    // Login exitoso
-                    localStorage.setItem("currentUser", JSON.stringify(user));
-                    
-                    // Guardar preferencia de "recuérdame"
-                    if (rememberMe.checked) {
-                        localStorage.setItem("rememberUser", email);
-                    } else {
-                        localStorage.removeItem("rememberUser");
-                    }
-                    
-                    submitBtn.innerHTML = '✓ Acceso correcto';
-                    submitBtn.style.background = "#2ed573";
-                    showFormMessage("¡Bienvenido de nuevo!", "success");
-                    
-                    setTimeout(() => {
-                        window.location.href = "html.html";
-                    }, 800);
-                } else {
-                    // Login fallido
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Iniciar sesión';
-                    showFormMessage("Correo o contraseña incorrectos", "error");
-                    passwordInput.value = "";
-                    passwordInput.focus();
-                }
-            }, 1000);
-        });
-
-        // Cargar email recordado si existe
-        window.addEventListener("load", () => {
-            const rememberedEmail = localStorage.getItem("rememberUser");
-            if (rememberedEmail) {
-                emailInput.value = rememberedEmail;
-                rememberMe.checked = true;
-                passwordInput.focus();
-            }
-        });
-    </script>
-</body>
-</html>
+/*
+ * Hoja de estilos unificada para BookMood
+ * Contiene estilos generales del sitio, y estilos específicos de Login y Registro.
+ */
+
+/* ---------------------------------------------------- */
+/* --- VARIABLES Y RESET GENERAL --- */
+/* ---------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Estilos generales del sitio */
+    text-decoration: none;
+    outline: none;
+    text-transform: capitalize;
+    transition: all .2s linear;
+}
+
+html {
+    font-size: 62.5%; /* Base para rem units */
+    overflow-x: hidden;
+    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+}
+
+/* Colores unificados (tomados de los archivos originales) */
+:root {
+    --primary-register: #667eea; /* Azul/Morado claro (Botón de Registro, focus) */
+    --dark-login: #2c2c54; /* Color oscuro (Botón de Login, Títulos) */
+    --error-color: #ff4757; /* Rojo para errores */
+    --success-color: #2ed573; /* Verde para éxito */
+
+    /* Colores y sombras del Header y Contenido General */
+    --black: #13131a;
+    --light-color: #666;
+    --box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
+    --border: .1rem solid rgba(0, 0, 0, .1);
+    --outline: .1rem solid rgba(0, 0, 0, .1);
+    --outline-hover: .2rem solid var(--black);
+}
+
+body {
+    background: #f5f5f5; /* Fondo de los formularios */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografía original */
+    min-height: 100vh;
+}
+
+/* ---------------------------------------------------- */
+/* --- ESTILOS DE ENCABEZADO Y GENERALES (html.html) --- */
+/* ---------------------------------------------------- */
+.header .header-1 {
+    background: #fff;
+    padding: 1.5rem 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: var(--border);
+}
+
+.header .header-2 {
+    background: var(--dark-login);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .header-2 .navbar a {
+    color: #fff;
+    display: inline-block;
+    padding: 1.2rem;
+    font-size: 1.7rem;
+}
+
+.header .header-2 .navbar a:hover {
+    background: var(--primary-register);
+}
+
+.header .logo {
+    font-size: 2.5rem;
+    font-weight: bolder;
+    color: var(--black);
+}
+
+.header .logo i {
+    color: var(--primary-register);
+}
+
+.header .search-form {
+    width: 50rem;
+    height: 5rem;
+    border: var(--border);
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: .5rem;
+}
+
+.header .search-form input {
+    font-size: 1.6rem;
+    padding: 0 1.2rem;
+    height: 100%;
+    width: 100%;
+    text-transform: none;
+    color: var(--black);
+    border: none;
+    background: none;
+}
+
+.header .search-form label {
+    font-size: 2.5rem;
+    padding-right: 1.5rem;
+    color: var(--black);
+    cursor: pointer;
+}
+
+.header .search-form label:hover {
+    color: var(--primary-register);
+}
+
+.header .icons div,
+.header .icons a {
+    font-size: 2.5rem;
+    color: var(--black);
+    margin-left: 1.5rem;
+    cursor: pointer;
+}
+
+.header .icons div:hover,
+.header .icons a:hover {
+    color: var(--primary-register);
+}
+
+#search-btn {
+    display: none;
+}
+
+.login-form-container {
+    position: fixed;
+    top: 0;
+    right: -105%;
+    z-index: 10000;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .9);
+}
+
+.login-form-container.active {
+    right: 0;
+}
+
+.login-form-container form {
+    background: #fff;
+    border: var(--border);
+    width: 40rem;
+    box-shadow: var(--box-shadow);
+    padding: 2.5rem;
+    border-radius: .5rem;
+}
+
+.login-form-container form h3 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: var(--black);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.login-form-container form span {
+    display: block;
+    font-size: 1.5rem;
+    padding-top: 1rem;
+}
+
+.login-form-container form .box {
+    width: 100%;
+    margin: .7rem 0;
+    font-size: 1.6rem;
+    border: var(--border);
+    padding: 1rem 1.2rem;
+    text-transform: none;
+    color: var(--black);
+}
+
+.login-form-container form .checkbox {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem 0;
+}
+
+.login-form-container form .checkbox label {
+    font-size: 1.5rem;
+    color: var(--light-color);
+    cursor: pointer;
+}
+
+.login-form-container form .btn {
+    text-align: center;
+    width: 100%;
+    margin: 1.5rem 0;
+    padding: 1rem;
+}
+
+.login-form-container form p {
+    padding-top: .8rem;
+    color: var(--light-color);
+    font-size: 1.5rem;
+}
+
+.login-form-container form p a {
+    color: var(--primary-register);
+    text-decoration: underline;
+}
+
+.login-form-container #close-login-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 2.5rem;
+    font-size: 5rem;
+    color: var(--black);
+    cursor: pointer;
+}
+
+.bottom-navbar {
+    text-align: center;
+    background: var(--dark-login);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    display: none;
+}
+
+.bottom-navbar a {
+    font-size: 2.5rem;
+    padding: 1.5rem;
+    color: #fff;
+}
+
+.bottom-navbar a:hover {
+    background: var(--primary-register);
+}
+
+.home {
+    padding: 0;
+}
+
+.home .row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 4rem 7%;
+    background: url(../image/banner.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.home .row .content {
+    flex: 1 1 42rem;
+}
+
+.home .row .books-slider {
+    flex: 1 1 42rem;
+    text-align: center;
+}
+
+.home .row .books-slider a img {
+    height: 20rem;
+    width: 15rem;
+}
+
+.home .row .books-slider a:hover img {
+    transform: scale(.9);
+}
+
+.home .row .books-slider .stand {
+    width: 100%;
+    margin-top: -2rem;
+}
+
+.home .row .content h3 {
+    color: var(--black);
+    font-size: 4.5rem;
+}
+
+.home .row .content p {
+    color: var(--light-color);
+    font-size: 1.4rem;
+    line-height: 2;
+    padding: 1rem 0;
+}
+
+.icons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 5rem 7%;
+    background: #eee;
+}
+
+.icons-container .icons {
+    background: #fff;
+    border: var(--border);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    flex: 1 1 25rem;
+}
+
+.icons-container .icons i {
+    font-size: 3rem;
+    color: var(--primary-register);
+    margin-right: 2rem;
+}
+
+.icons-container .icons h3 {
+    font-size: 2.2rem;
+    color: var(--black);
+    padding-bottom: .5rem;
+}
+
+.icons-container .icons p {
+    font-size: 1.4rem;
+    color: var(--light-color);
+}
+
+.heading {
+    text-align: center;
+    text-transform: uppercase;
+    padding-bottom: 3.5rem;
+    color: var(--black);
+    font-size: 4rem;
+}
+
+.heading span {
+    color: var(--primary-register);
+    text-transform: uppercase;
+}
+
+.btn {
+    margin-top: 1rem;
+    display: inline-block;
+    padding: .9rem 3rem;
+    border-radius: .5rem;
+    color: #fff;
+    background: var(--dark-login);
+    font-size: 1.7rem;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+}
+
+.btn:hover {
+    background: var(--primary-register);
+}
+
+.featured .featured-slider .box {
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+    border: var(--border);
+    text-align: center;
+}
+
+.featured .featured-slider .box:hover {
+    border: var(--outline-hover);
+}
+
+.featured .featured-slider .box .image {
+    padding: 1rem;
+    background: #f0f0f0;
+}
+
+.featured .featured-slider .box:hover .image {
+    transform: translateY(6rem);
+}
+
+.featured .featured-slider .box .image img {
+    height: 25rem;
+}
+
+.featured .featured-slider .box .icons {
+    border-bottom: var(--border);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    z-index: 1;
+    transform: translateY(-100%);
+}
+
+.featured .featured-slider .box:hover .icons {
+    transform: translateY(0%);
+}
+
+.featured .featured-slider .box .icons a {
+    color: var(--black);
+    font-size: 2.2rem;
+    padding: 1.3rem 1.5rem;
+}
+
+.featured .featured-slider .box .icons a:hover {
+    background: var(--primary-register);
+    color: #fff;
+}
+
+.featured .featured-slider .box .content {
+    background: #eee;
+    padding: 1.5rem;
+}
+
+.featured .featured-slider .box .content h3 {
+    font-size: 2rem;
+    color: var(--black);
+}
+
+.featured .featured-slider .box .content .price {
+    font-size: 2.2rem;
+    color: var(--primary-register);
+    padding-top: 1rem;
+}
+
+.featured .featured-slider .box .content .price span {
+    font-size: 1.5rem;
+    color: var(--light-color);
+    text-decoration: line-through;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    border: var(--border);
+    height: 4.5rem;
+    width: 4.5rem;
+    color: var(--black);
+    background: #fff;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 2rem;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: var(--primary-register);
+    color: #fff;
+}
+
+.newsletter {
+    background: url(../image/letter-bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.newsletter form {
+    max-width: 55rem;
+    margin-left: auto;
+    text-align: center;
+    padding: 5rem 0;
+}
+
+.newsletter form h3 {
+    font-size: 2.2rem;
+    color: #fff;
+    padding-bottom: 1rem;
+    font-weight: normal;
+}
+
+.newsletter form .box {
+    width: 100%;
+    margin: .7rem 0;
+    padding: 1rem 1.2rem;
+    font-size: 1.6rem;
+    color: var(--black);
+    border-radius: .5rem;
+    text-transform: none;
+}
+
+.arrivals .arrivals-slider .box {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    border: var(--border);
+    margin: 1rem 0;
+}
+
+.arrivals .arrivals-slider .box:hover {
+    border: var(--outline-hover);
+}
+
+.arrivals .arrivals-slider .box .image img {
+    height: 15rem;
+}
+
+.arrivals .arrivals-slider .box .content h3 {
+    font-size: 2rem;
+    color: var(--black);
+}
+
+.arrivals .arrivals-slider .box .content .price {
+    font-size: 2.2rem;
+    color: var(--primary-register);
+    padding-bottom: .5rem;
+}
+
+.arrivals .arrivals-slider .box .content .price span {
+    font-size: 1.5rem;
+    color: var(--light-color);
+    text-decoration: line-through;
+}
+
+.arrivals .arrivals-slider .box .content .stars i {
+    font-size: 1.5rem;
+    color: var(--primary-register);
+}
+
+.footer .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 1.5rem;
+}
+
+.footer .box-container .box h3 {
+    font-size: 2.2rem;
+    color: var(--black);
+    padding: 1rem 0;
+}
+
+.footer .box-container .box a {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--light-color);
+    padding: 1rem 0;
+}
+
+.footer .box-container .box a i {
+    color: var(--primary-register);
+    padding-right: .5rem;
+}
+
+.footer .box-container .box a:hover i {
+    padding-right: 2rem;
+}
+
+.footer .box-container .box img {
+    margin-top: 1rem;
+}
+
+.footer .share {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.footer .share a {
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 2rem;
+    color: #fff;
+    background: var(--dark-login);
+    margin: 0 .3rem;
+    border-radius: 50%;
+}
+
+.footer .share a:hover {
+    background: var(--primary-register);
+}
+
+.footer .credit {
+    border-top: var(--border);
+    margin-top: 2.5rem;
+    padding: 2.5rem 1rem;
+    padding-top: 2.5rem;
+    font-size: 2rem;
+    color: var(--light-color);
+    text-align: center;
+}
+
+.footer .credit span {
+    color: var(--primary-register);
+}
+
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10000;
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-container.active {
+    display: none;
+}
+
+.loader-container img {
+    height: 10rem;
+}
+
+@media (max-width:991px) {
+    html {
+        font-size: 55%;
+    }
+
+    .header .header-1 {
+        padding: 1.5rem;
+    }
+
+    section {
+        padding: 3rem 2rem;
+    }
+
+    .home .row .content h3 {
+        font-size: 3.5rem;
+    }
+
+    .newsletter {
+        background-attachment: scroll;
+    }
+}
+
+@media (max-width:768px) {
+    .header .header-2 {
+        display: none;
+    }
+
+    #search-btn {
+        display: inline-block;
+    }
+
+    .header .header-1 {
+        box-shadow: var(--box-shadow);
+        position: relative;
+    }
+
+    .header .header-1 .search-form {
+        position: absolute;
+        top: -119%;
+        right: 2rem;
+        width: 90%;
+        box-shadow: var(--box-shadow);
+    }
+
+    .header .header-1 .search-form.active {
+        top: 115%;
+    }
+
+    .bottom-navbar {
+        display: block;
+    }
+
+    .home .row {
+        background-position: left;
+    }
+}
+
+@media (max-width:450px) {
+    html {
+        font-size: 50%;
+    }
+
+    .heading {
+        font-size: 3rem;
+    }
+
+    .footer .box-container .box {
+        text-align: center;
+    }
+
+    .footer .box-container .box a {
+        text-align: center;
+    }
+
+    .home .row .content h3 {
+        font-size: 3rem;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* --- ESTILOS EXTRAÍDOS DE ARCHIVOS HTML --- */
+/* ---------------------------------------------------- */
+
+/* --- Estilos extraídos de html.html (Home Section) --- */
+.home .content .home-title {
+    color: white;
+}
+
+.home .content .home-paragraph {
+    color: white;
+    font-size: 20px;
+}
+
+/* --- Estilos extraídos de html2.html (Géneros) --- */
+/* Estilos para las imágenes de libros en la sección de géneros */
+.featured-slider .box .image img {
+    width: 7cm;
+    height: 10cm;
+}
+
+.nje h1 {
+    text-align: center;
+    color: black;
+}
+
+.nje {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 40%;
+    padding-top: 20px;
+    border-bottom: 1px solid black;
+}
+
+/* --- Estilos extraídos de html3.html (Blogs) --- */
+.blogs-page-wrapper {
+    padding-left: 2cm;
+    padding-right: 2cm;
+    margin-top: 2px;
+}
+
+.header-1 .icons.header-icons-no-padding {
+    padding-left: 0cm;
+    padding-right: 0cm;
+}
+
+
+/* ---------------------------------------------------- */
+/* --- ESTILOS ESPECÍFICOS DE LOGIN (login.html) --- */
+/* ---------------------------------------------------- */
+
+/* Estilo para centrar el contenido de la página de Login/Registro */
+.centered-page-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Se asegura de ocupar toda la altura de la ventana */
+    padding: 20px;
+}
+
+/* Contenedor principal de Login */
+.login-form-container.login-page-container {
+    /* Los estilos de .login-form-container ya están definidos, pero agregamos esta variante para el modo standalone */
+    position: static;
+    right: auto;
+    height: auto;
+    width: auto;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: auto; /* Se elimina el min-height: 100vh para no duplicar el centrado */
+    padding: 1rem;
+}
+
+.login-form-container form.login-form-box {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    padding: 1.6rem;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    color: #222;
+}
+
+.login-form-container #close-login-btn {
+    display: none; /* Ocultar en la página de login standalone */
+}
+
+.form-group {
+    margin-bottom: 0.85rem;
+    display: block;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 1.2rem;
+    display: none;
+}
+
+.form-message {
+    display: none;
+    padding: 0.5rem;
+    text-align: center;
+    border-radius: 4px;
+    margin-top: 1rem;
+    font-size: 1.4rem;
+}
+
+.form-message.visible {
+    display: block;
+}
+
+.form-message.error {
+    background: #fff5f5;
+    color: var(--error-color);
+}
+
+.form-message.success {
+    background: #f0fff4;
+    color: var(--success-color);
+}
+
+/* Input styles específicos de la caja de login */
+input[type="email"].box-login,
+input[type="password"].box-login {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.6rem;
+    text-transform: none;
+    transition: border-color 0.2s;
+}
+
+input[type="email"].box-login:focus,
+input[type="password"].box-login:focus {
+    border-color: var(--dark-login);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--dark-login);
+}
+
+.login-form-container .checkbox {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.login-form-container .checkbox label {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+/* Botones y enlaces */
+.login-form-container .btn-login {
+    background: var(--dark-login);
+    color: white;
+    font-weight: 600;
+    font-size: 1.7rem;
+    padding: 1rem;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+    margin-top: 1rem;
+}
+
+.login-form-container .btn-login:hover:not(:disabled) {
+    background: var(--primary-register);
+}
+
+.login-form-container p {
+    font-size: 1.4rem;
+    color: var(--light-color);
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.login-form-container p a {
+    color: var(--primary-register);
+    text-decoration: underline;
+}
+
+.login-form-container p a:hover {
+    color: var(--dark-login);
+}
+
+
+/* ---------------------------------------------------- */
+/* --- ESTILOS ESPECÍFICOS DE REGISTRO (register.html) --- */
+/* ---------------------------------------------------- */
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.register-form h2 {
+    color: var(--dark-login);
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-register);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.input-group input.error-input {
+    border-color: var(--error-color);
+    background: #fff5f5;
+}
+
+.input-group input.success-input {
+    border-color: var(--success-color);
+    background: #f0fff4;
+}
+
+.register-form .error {
+    color: var(--error-color);
+    font-size: 13px;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.register-form .success {
+    color: var(--success-color);
+    font-size: 13px;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.register-form .btn-register {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-register) 0%, #764ba2 100%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.register-form .btn-register:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.register-form .btn-register:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.password-meter {
+    margin-top: 5px;
+}
+
+.password-strength-meter {
+    height: 5px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.strength-weak {
+    width: 33%;
+    background: var(--error-color);
+}
+
+.strength-medium {
+    width: 66%;
+    background: #ffa502;
+}
+
+.strength-strong {
+    width: 100%;
+    background: var(--success-color);
+}
+
+.register-form .links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-form .links p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.register-form .links a {
+    color: var(--primary-register);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-form .links a:hover {
+    text-decoration: underline;
+}
+
+.register-form .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.register-form .checkbox-group input {
+    width: auto;
+    margin-right: 10px;
+    padding: 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.register-form .checkbox-group input:checked {
+    border-color: var(--primary-register);
+    box-shadow: none;
+    background: var(--primary-register);
+}
+
+.register-form .checkbox-group label {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+}
+
+.register-form .loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.6s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
